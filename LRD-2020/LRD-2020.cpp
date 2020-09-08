@@ -47,7 +47,7 @@ int wmain(int argc, const wchar_t * argv[])
 		SA::CheckArgs(newLT_Table, newIT_Table);
 		SA::OutData(newLT_Table, newIT_Table);
 
-		GN::Generation(newLT_Table, newIT_Table);
+		//GN::Generation(newLT_Table, newIT_Table);
 
 		Log::Close(log);
 	}
