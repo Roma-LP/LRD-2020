@@ -21,7 +21,7 @@ namespace Log
 		wcscpy_s(log.logfile, logfile);
 		return log;
 	}
-	
+
 	void WriteLine(LOG log, const char *c, ...)
 	{
 		const char **ptr = &c;
@@ -81,7 +81,7 @@ namespace Log
 		*log.stream << "\n-----Исходные данные----- " << endl;
 		*log.stream << "Количество символов: " << in.size << endl;
 		*log.stream << "Проигнорировано    : " << in.ignor << endl;
-		*log.stream << "Количество строк   : " << in.lines + 1 << endl<<endl;
+		*log.stream << "Количество строк   : " << in.lines + 1 << endl << endl;
 	}
 
 	void WriteInsideTextTo_OutFile(Parm::PARM parm, In::IN in)
@@ -120,21 +120,21 @@ namespace Log
 		for (int i = 0; i < newLT_Table.size; i++)
 		{
 			*log.stream << newLT_Table.table[i].sn << '\t';		// вывод номера строки
-				j = newLT_Table.table[i].sn;					// записываем номер текущей строки
-				for (; newLT_Table.table[i].sn == j;i++)				// пока номер строки совпадает с текущей
-				{
-					*log.stream << newLT_Table.table[i].lexema;	// выводим лексему текущей строки
-					if (newLT_Table.table[i].idxTI != LT_TI_NULLIDX)       // вывод ссылок
-						*log.stream << "["<<newLT_Table.table[i].idxTI<<"]";
-					if (newLT_Table.table[i].sp_smbl != LT_NULLSPSMBL)		// вывод арифметической операции
-						if (newLT_Table.table[i].lexema != '(' && newLT_Table.table[i].lexema != ')')
-							*log.stream << "[" << newLT_Table.table[i].sp_smbl << "]";
-				}
-				i--;											// удаляем единичку, т.к. цикл for(121) её добавит
-				*log.stream << endl;							// добавляем переход строки для новой строки
+			j = newLT_Table.table[i].sn;					// записываем номер текущей строки
+			for (; newLT_Table.table[i].sn == j; i++)				// пока номер строки совпадает с текущей
+			{
+				*log.stream << newLT_Table.table[i].lexema;	// выводим лексему текущей строки
+				if (newLT_Table.table[i].idxTI != LT_TI_NULLIDX)       // вывод ссылок
+					*log.stream << "[" << newLT_Table.table[i].idxTI << "]";
+				if (newLT_Table.table[i].sp_smbl != LT_NULLSPSMBL)		// вывод арифметической операции
+					if (newLT_Table.table[i].lexema != '(' && newLT_Table.table[i].lexema != ')')
+						*log.stream << "[" << newLT_Table.table[i].sp_smbl << "]";
+			}
+			i--;											// удаляем единичку, т.к. цикл for(121) её добавит
+			*log.stream << endl;							// добавляем переход строки для новой строки
 		}
 		*log.stream << endl << endl << endl << "Таблица идентификаторов:" << endl;
-		*log.stream << "Идентификатор: \t"<< "Тип: \t\t" << "Тип данных: \t"<<"Область видимости: \t"<< "Значение: \t"<< "Номер первого вхождения:"<<endl;
+		*log.stream << "Идентификатор: \t" << "Тип: \t\t" << "Тип данных: \t" << "Область видимости: \t" << "Значение: \t" << "Номер первого вхождения:" << endl;
 		for (int i = 0; i < newIT_Table.size; i++)
 		{
 			*log.stream << newIT_Table.table[i].id << "\t\t";		// вывод идентификатора
@@ -155,7 +155,7 @@ namespace Log
 			}
 
 			*log.stream << newIT_Table.table[i].idscope << "\t\t\t";  // вывод области видимости идентификатора
-			
+
 			switch (newIT_Table.table[i].iddatatype)						// вывод значения идентификатора
 			{
 			case 1: {*log.stream << newIT_Table.table[i].value.vint; break; }
@@ -163,9 +163,9 @@ namespace Log
 			case 3: {*log.stream << newIT_Table.table[i].value.vbool; break; }
 			}
 
-			*log.stream  <<"\t\t\t"<< newIT_Table.table[i].idxfirstLE<<endl; // вывод первого вхождения идентификатора
+			*log.stream << "\t\t\t" << newIT_Table.table[i].idxfirstLE << endl; // вывод первого вхождения идентификатора
 
-			if (i % 4 == 0 && i!=0)  // отступ в таблице через каждые 4 строки
+			if (i % 4 == 0 && i != 0)  // отступ в таблице через каждые 4 строки
 				*log.stream << endl;
 		}
 
@@ -176,19 +176,27 @@ namespace Log
 		typedef LT::LexTable& lt;
 		short j;
 		*log.stream << "Таблица лексем (Польская запись):" << endl;
+		cout << "Таблица лексем (Польская запись):" << endl;
 		for (int i = 0; i < newLT_Table.size; i++)
 		{
 			*log.stream << newLT_Table.table[i].sn << '\t';		// вывод номера строки
+			cout << newLT_Table.table[i].sn << '\t';		// вывод номера строки
 			j = newLT_Table.table[i].sn;					// записываем номер текущей строки
 			for (; newLT_Table.table[i].sn == j; i++)				// пока номер строки совпадает с текущей
 			{
 				*log.stream << newLT_Table.table[i].lexema;	// выводим лексему текущей строки
+				cout << newLT_Table.table[i].lexema;	// выводим лексему текущей строки
 				if (newLT_Table.table[i].sp_smbl != LT_NULLSPSMBL)		// вывод арифметической операции
 					if (newLT_Table.table[i].lexema != '(' && newLT_Table.table[i].lexema != ')')
+					{
+
 						*log.stream << "[" << newLT_Table.table[i].sp_smbl << "]";
+						cout << "[" << newLT_Table.table[i].sp_smbl << "]";
+					}
 			}
 			i--;											// удаляем единичку, т.к. цикл for(121) её добавит
 			*log.stream << endl;							// добавляем переход строки для новой строки
+			cout << endl;							// добавляем переход строки для новой строки
 		}
 	}
 

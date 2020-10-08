@@ -308,7 +308,7 @@ namespace LA
 			IDDATATYPE = (IT::IDDATATYPE) 1;
 			CheckEightLiteral(word);
 			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "lit", &countLiteral);
+													IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -325,7 +325,7 @@ namespace LA
 			IDDATATYPE = (IT::IDDATATYPE) 1;
 			*word = Convert8to10(word);
 			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "lit", &countLiteral);
+													IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -341,7 +341,7 @@ namespace LA
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 2;
 			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "lit", &countLiteral);
+													IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -357,7 +357,7 @@ namespace LA
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 3;
 			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "lit", &countLiteral);
+													IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -373,7 +373,7 @@ namespace LA
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 3;
 			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "lit", &countLiteral);
+													IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{

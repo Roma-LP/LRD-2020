@@ -142,6 +142,9 @@ namespace IT
 		if (strcmp(id, "strcat") == 0) return true;
 		if (strcmp(id, "strcpy") == 0) return true;
 
+		if (strcmp(id, "substr") == 0) return true;
+		if (strcmp(id, "strlen") == 0) return true;
+
 		return false;
 	}
 

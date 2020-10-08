@@ -60,26 +60,95 @@ namespace PN
 		zap = 1;  // переустанавливаем значение на 1
 		for (; newLT_Table.table[i].lexema != ';'; i++)  // пока не встретим конец выражения
 		{
-			
+			if (newLT_Table.table[i].lexema == 'i' || newLT_Table.table[i].lexema == 'l')
+			{
+				result[j++] = newLT_Table.table[i];
+				if (newLT_Table.table[i + 1].lexema == '(') // проверка на вызов функции, т.к. стандартная запись ..i(..)..
+					call_fnuk = true;
+			}
+			else
+			{
+				if (newLT_Table.table[i].lexema == 'v') //  проверка на математическую операцию (т.к. у них лексема v )
+				{
+					// если приоритет в стеке больше или равен (чем то что мы хотим туда поместить), выталкиваем в результирующую строку  
+					while (!MyStack.empty() && Priority(MyStack.top().sp_smbl) >= Priority(newLT_Table.table[i].sp_smbl))
+					{
+						if (MyStack.top().lexema != '[')
+						{
+							result[j++] = MyStack.top();
+							MyStack.pop();
+						}
+						else break;
+					}
+					MyStack.push(newLT_Table.table[i]);
+					continue;
+				}
+				if (newLT_Table.table[i].lexema == ',')
+				{
+					zap++;  // когда встречаем запятую, значит уже как минимум +1 параметр
+					// запятая не помещается в стек, и если в стеке есть операции, то все выбираются в результирующую строку
+					while (MyStack.top().sp_smbl == '+' || MyStack.top().sp_smbl == '-' || MyStack.top().sp_smbl == '*' || MyStack.top().sp_smbl == '/')
+					{
+						result[j++] = MyStack.top();
+						MyStack.pop();
+					}
+					continue;
+				}
+				else
+				{
+					if (newLT_Table.table[i].lexema == '(')
+					{
+						MyStack.push(newLT_Table.table[i]);
+						continue;
+					}
+					if (newLT_Table.table[i].lexema == ')')
+					{
+						// до тех пор когда не встретим открывающую скобку, выталкиваем из стека в результирующую строку
+						while (MyStack.top().lexema != '(')
+						{
+							result[j++] = MyStack.top();
+							MyStack.pop();
+						}
+						if (newLT_Table.table[i - 1].lexema == '(') // делаем проверку на вызов функции без параметров
+							zap = 0;
+						MyStack.pop(); // скобки уничтожаются (т.к. если мы вышли из цикла, то значит в стеке '(')
+						if (call_fnuk)
+						{
+							result[j].lexema = '0' + zap;  // @+
+							result[j].idxTI = LT_TI_NULLIDX;
+							result[j].sn = newLT_Table.table[i].sn;
+							result[j].sp_smbl = LT_NULLSPSMBL;
+							zap = 1;
+							call_fnuk = false;
+							j++;
+						}
+					}
+				}
+			}
 		}
-		
+		while (!MyStack.empty())
+		{
+			result[j++] = MyStack.top();
+			MyStack.pop();
+		}
+		count_pn = j;  // запоминаем позицию конца уже польской нотации
 	}
 
 	void WriteInTablePolNat(LT::LexTable& newLT_Table, short i)
 	{
 		short j;
 		short n;
-		for ( j = i + 1, n = 0; n < count_pn; j++,n++)  // j = i+1 т.к. i это номер =, а нам нужна следующая позиция
+		for (j = i + 1, n = 0; n < count_pn; j++, n++)  // j = i+1 т.к. i это номер =, а нам нужна следующая позиция
 			newLT_Table.table[j] = result[n];  // n это отдельный счетчик для result начиная с нуля 
 
 		// высчитываем количестов переносов (от окнца строки отнимаем позицию '=' и количество польской записи)
-		for (short m=1;m<end-i- count_pn;m++)   
+		for (short m = 1; m < end - i - count_pn; m++)
 		{
 			// k= позициии '=' + количество PolNat + 1 (так как нам нужно сдвигать следующи(е) лексемы)
-			for (short k = i+count_pn+1; k < newLT_Table.size; k++)  
+			for (short k = i + count_pn + 1; k < newLT_Table.size; k++)
 			{
-				newLT_Table.table[k] = newLT_Table.table[k+1];
-				
+				newLT_Table.table[k] = newLT_Table.table[k + 1];
+
 			}
 			//delete newLT_Table.table[newLT_Table.size];
 			newLT_Table.size--;

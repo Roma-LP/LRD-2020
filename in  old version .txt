@@ -1,0 +1,58 @@
+uint function fifi(uint x, uint y)
+{
+ var uint z;
+ z= x*(x+y);
+ if(z)
+ {
+	print 'положительно!!!';
+ }
+ else
+{
+	print 'отрицательно!!!';
+}
+ return z; 
+};  
+
+string function fsfs (string a, string b)
+{
+ var string c;
+var string function strcat(string a, string p);
+ c = strcat(a, b) + b;
+ return c; 
+};  
+
+main
+{
+var uint x;
+ var uint y;
+ var uint z;
+ var string sa;
+ var string sb;
+ var string sc;
+ var bool b1;
+var bool b2;
+ x = 1*2+9;
+ x=~x;
+print x;
+ y = 8/2;
+b1=true;
+b2=false;
+z=063;
+print z;
+x=5;
+z=x|y;
+print z;
+y=x&y;
+print y;
+ sa = 'first word ';
+ sb = 'второе слово '; 
+ z = fifi(x,y);
+ sc = fsfs(sa,sb);
+ print 'контрольный пример';
+ print sc;
+var uint function strcpy(string p, string n);
+ print strcpy(sa,sb);
+
+ return 0;
+};
+
