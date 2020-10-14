@@ -68,7 +68,7 @@ namespace PN
 			}
 			else
 			{
-				if (newLT_Table.table[i].lexema == 'v') //  проверка на математическую операцию (т.к. у них лексема v )
+				if (newLT_Table.table[i].lexema == 'o') //  проверка на математическую операцию (т.к. у них лексема o )
 				{
 					// если приоритет в стеке больше или равен (чем то что мы хотим туда поместить), выталкиваем в результирующую строку  
 					while (!MyStack.empty() && Priority(MyStack.top().sp_smbl) >= Priority(newLT_Table.table[i].sp_smbl))

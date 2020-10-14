@@ -39,8 +39,8 @@ int wmain(int argc, const wchar_t * argv[])
 		mfst.savededucation();
 		mfst.printrules(log);
 
-		//PN::PolishNotation(newLT_Table);
-		//Log::WritePN(log, newLT_Table);
+		PN::PolishNotation(newLT_Table);
+		Log::WritePN(log, newLT_Table);
 
 		//SA::Typecheck(newLT_Table, newIT_Table);
 		//SA::FuncRet(newLT_Table, newIT_Table);
