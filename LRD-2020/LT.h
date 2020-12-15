@@ -3,10 +3,11 @@
 #define LT_MAXSIZE	    4096		// максимальное количество сткрок в таблице лексем
 #define LT_TI_NULLIDX   0xffffffff	// нет элемента таблицы идентификаторов
 #define LT_NULLSPSMBL   '.'		// нет элемента для специальной арифметической операций
-#define LEX_INTEGER		't'		// лексема для  uint 
+#define LEX_INTEGER		't'		// лексема для  int 
+#define LEX_UNINTEGER	't'		// лексема для  uint 
 #define LEX_STRING		't'		// лексема для  string
 #define LEX_BOOL		't'		// лексема для  bool 
-#define LEX_CHAR		't'		// лексема для  let 
+#define LEX_CHAR		't'		// лексема для  char
 #define LEX_ID			'i'		// лексема для  идентификатора 
 #define LEX_LITERAL		'l'		// лексема для  литерала
 #define LEX_FUNCTION	'f'		// лексема для  function
@@ -16,6 +17,7 @@
 #define LEX_MAIN		'm'		// лексема для  main
 #define LEX_IF			'u'		// лексема для  if
 #define LEX_ELSE		'e'		// лексема для  else
+#define LEX_FOR			'w'		// лексема для  for
 #define LEX_SEMICOLON	';'		// лексема для  ;
 #define LEX_COMMA		','		// лексема для  ,
 #define LEX_LEFTBRACE	'{'		// лексема для  {

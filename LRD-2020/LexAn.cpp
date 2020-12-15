@@ -85,7 +85,12 @@ namespace LA
 	//разбор
 	void Parsing(char* word, short countLexem, LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
 	{
-		FST::FST fstInteger(word, 5,
+		FST::FST fstInteger(word, 4,
+			FST::NODE(1, FST::RELATION('i', 1)),
+			FST::NODE(1, FST::RELATION('n', 2)),
+			FST::NODE(1, FST::RELATION('t', 3)),
+			FST::NODE());
+		FST::FST fstUnInteger(word, 5,
 			FST::NODE(1, FST::RELATION('u', 1)),
 			FST::NODE(1, FST::RELATION('i', 2)),
 			FST::NODE(1, FST::RELATION('n', 3)),
@@ -104,6 +109,10 @@ namespace LA
 			FST::NODE(1, FST::RELATION('o', 2)),
 			FST::NODE(1, FST::RELATION('o', 3)),
 			FST::NODE(1, FST::RELATION('l', 4)),
+			FST::NODE());
+		FST::FST fstChar(word, 3,
+			FST::NODE(1, FST::RELATION('c', 1)),
+			FST::NODE(1, FST::RELATION('h', 2)),
 			FST::NODE());
 		FST::FST fstFunction(word, 9,
 			FST::NODE(1, FST::RELATION('f', 1)),
@@ -171,6 +180,12 @@ namespace LA
 			FST::NODE(1, FST::RELATION('l', 3)),
 			FST::NODE(1, FST::RELATION('s', 4)),
 			FST::NODE(1, FST::RELATION('e', 5)),
+			FST::NODE()
+		);
+		FST::FST fstFor(word, 4,
+			FST::NODE(1, FST::RELATION('f', 1)),
+			FST::NODE(1, FST::RELATION('o', 2)),
+			FST::NODE(1, FST::RELATION('r', 3)),
 			FST::NODE()
 		);
 		FST::FST fstLiteralOfInteger(word, 2,
@@ -255,6 +270,11 @@ namespace LA
 		);
 		if (execute(fstInteger)) {
 			LT::Add(newLT_Table, LT::createStructLexem(LEX_INTEGER, line, LT_TI_NULLIDX));
+			IDDATATYPE = (IT::IDDATATYPE) 4;
+			return;
+		}
+		if (execute(fstUnInteger)) {
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_UNINTEGER, line, LT_TI_NULLIDX));
 			IDDATATYPE = (IT::IDDATATYPE) 1;
 			return;
 		}
@@ -266,6 +286,11 @@ namespace LA
 		if (execute(fstBool)) {
 			Add(newLT_Table, LT::createStructLexem(LEX_BOOL, line, LT_TI_NULLIDX));
 			IDDATATYPE = (IT::IDDATATYPE) 3;
+			return;
+		}
+		if (execute(fstChar)) {
+			Add(newLT_Table, LT::createStructLexem(LEX_CHAR, line, LT_TI_NULLIDX));
+			IDDATATYPE = (IT::IDDATATYPE) 5;
 			return;
 		}
 		if (execute(fstFunction)) {
@@ -301,6 +326,10 @@ namespace LA
 		}
 		if (execute(fstElse)) {
 			Add(newLT_Table, LT::createStructLexem(LEX_ELSE, line, LT_TI_NULLIDX));
+			return;
+		}
+		if (execute(fstFor)) {
+			Add(newLT_Table, LT::createStructLexem(LEX_FOR, line, LT_TI_NULLIDX));
 			return;
 		}
 		if (execute(fstLiteralOfInteger)) {

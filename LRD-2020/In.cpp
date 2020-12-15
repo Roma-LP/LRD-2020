@@ -57,23 +57,39 @@ namespace In {
 		unsigned char *ptrText = in.textFormated; //указатель на наш текст
 		bool spaceAdded = false;
 		bool qAdded = false;
-		for (int i = 0; i < in.size; i++)
+		int j = 0;
+		for (j = 0; j < in.size; j++)
 		{
-			if (qAdded && in.text[i] != '\'')
+			if (in.text[j] == '\n' || in.text[j] == '\t' || in.text[j] == ' ')
 			{
-				AddSymbol(&ptrText, in.text[i]);
 				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+		for (int i = j; i < in.size; i++)
+		{
+			
+			if (qAdded)
+			{
+				if (in.text[i] != '"' && in.text[i] != '\'')
+				{
+					AddSymbol(&ptrText, in.text[i]);
+					continue;
+				}
 			}
 			if (in.text[i] != ' ')
 			{
 				if (in.text[i] == ';' || in.text[i] == ','  || in.text[i] == '+'  || in.text[i] == '/'  || in.text[i] == '~' ||
-					in.text[i] == '-' || in.text[i] == '*'  || in.text[i] == '='  || in.text[i] == '\'' ||
+					in.text[i] == '-' || in.text[i] == '*'  || in.text[i] == '='  || in.text[i] == '\'' || in.text[i]=='"' ||
 					in.text[i] == '(' || in.text[i] == ')'  || in.text[i] == '{'  || in.text[i] == '|' ||
 					in.text[i] == '}' || in.text[i] == '\n' || in.text[i] == '\t' || in.text[i] == '&' )
 				{
-					if (in.text[i] == '\'')
+					if (in.text[i] == '"' || in.text[i] == '\'')
 					{
-						AddSymbol(&ptrText, '\'');
+						AddSymbol(&ptrText, in.text[i]);
 						qAdded = !qAdded;
 						spaceAdded = false;
 						continue;
@@ -89,21 +105,23 @@ namespace In {
 							continue;
 						}
 						else {
-							if (spaceAdded)
-							{
-								//AddSymbol(&ptrText, '|');
-								AddSymbol(&ptrText, '\n');
-								spaceAdded = true;
-								continue;
-							}
-							else
-							{
-								AddSymbol(&ptrText, ' ');
-								//AddSymbol(&ptrText, '|');
-								AddSymbol(&ptrText, '\n');
-								spaceAdded = true;
-								continue;
-							}
+							
+								if (spaceAdded)
+								{
+									//AddSymbol(&ptrText, '|');
+									AddSymbol(&ptrText, '\n');
+									spaceAdded = true;
+									continue;
+								}
+								else
+								{
+									AddSymbol(&ptrText, ' ');
+									//AddSymbol(&ptrText, '|');
+									AddSymbol(&ptrText, '\n');
+									spaceAdded = true;
+									continue;
+								}
+							
 						}
 					}
 					if (spaceAdded && in.text[i] != ' ')
@@ -149,19 +167,24 @@ namespace In {
 					spaceAdded = true;
 				}
 			}
-			//if (i == 645)
+			//if (in.text[i+1] == '\'')
 				//cout << "69";
 		}
 		AddSymbol(&ptrText, '\0');
 
 		short counterLexem = 0;
+		qAdded = false;
 		for (int i = 0; i < strlen((char*)in.textFormated); i++)
 		{
-			if (in.textFormated[i] == ' ')
+			if (in.textFormated[i] == '\'' || in.textFormated[i] == '"')
+				qAdded = !qAdded;
+
+			if (in.textFormated[i] == ' ' && !qAdded)
+			{
 				counterLexem++;
+			}
 		}
 		in.counterLexem = counterLexem;
-		
 		reading.close();
 		return in;
 	}

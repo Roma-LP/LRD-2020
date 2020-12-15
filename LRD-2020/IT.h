@@ -10,14 +10,14 @@
 
 namespace IT			// таблица идентификаторов
 {
-	enum IDDATATYPE	 { INT = 1, STR = 2, BOOL = 3 };	// типы данных идентификаторов: integer, string, bool
+	enum IDDATATYPE	 { UINT = 1, STR = 2, BOOL = 3, INT = 4, CHR = 5};	// типы данных идентификаторов: uninteger, string, bool, integer, char
 	enum IDTYPE		 { V = 1, F = 2, P = 3, L = 4 };	// типы идентификаторов: переменная, функция, параметр, литерал
 
 	struct Entry		// строка таблицы идентификаторов
 	{
 		int			idxfirstLE;			// индекс первой строки в таблице лексем
 		char		id[15];	// идентификатор (автоматически усекается до ID_MAXSIZE)
-		IDDATATYPE	iddatatype;			// тип данных идентификаторов: integer, string, bool
+		IDDATATYPE	iddatatype;			// тип данных идентификаторов: uninteger, string, bool, integer, char
 		IDTYPE		idtype;				// тип идентификатора: переменная, функция, параметр, литерал
 		std::string		idscope;			// область видимости: глобальная, главная(Main) функция, функция
 		union
