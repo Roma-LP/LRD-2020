@@ -6,6 +6,7 @@
 #define LEX_INTEGER		't'		// лексема для  uint 
 #define LEX_STRING		't'		// лексема для  string
 #define LEX_BOOL		't'		// лексема для  bool 
+#define LEX_CHAR		't'		// лексема для  let 
 #define LEX_ID			'i'		// лексема для  идентификатора 
 #define LEX_LITERAL		'l'		// лексема для  литерала
 #define LEX_FUNCTION	'f'		// лексема для  function

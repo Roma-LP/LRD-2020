@@ -39,13 +39,13 @@ int wmain(int argc, const wchar_t * argv[])
 		mfst.savededucation();
 		mfst.printrules(log);
 
-		PN::PolishNotation(newLT_Table);
-		Log::WritePN(log, newLT_Table);
+		//PN::PolishNotation(newLT_Table);
+		//Log::WritePN(log, newLT_Table);
 
-		//SA::Typecheck(newLT_Table, newIT_Table);
-		//SA::FuncRet(newLT_Table, newIT_Table);
-		//SA::CheckArgs(newLT_Table, newIT_Table);
-		//SA::OutData(newLT_Table, newIT_Table);
+		SA::Typecheck(newLT_Table, newIT_Table);
+		SA::FuncRet(newLT_Table, newIT_Table);
+		SA::CheckArgs(newLT_Table, newIT_Table);
+		SA::OutData(newLT_Table, newIT_Table);
 
 		//GN::Generation(newLT_Table, newIT_Table);
 
