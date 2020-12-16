@@ -1,21 +1,23 @@
+var uint function cntchstr ( ch n , string p ) ; 
+var uint function strtoint ( string a ) ; 
+var string function strcat ( string x , ch y ) ; 
 uint function fifi ( uint x , uint y ) 
 { 
 var uint z ; 
 z = x * ( x + y ) ; 
 if ( z ) 
 { 
-print 'положительно!!!' ; 
+print "положительно!!!" ; 
 } 
 else 
 { 
-print 'отрицательно!!!' ; 
+print "отрицательно!!!" ; 
 } 
 return z ; 
 } ; 
 uint function fsfs ( string ay , uint bi ) 
 { 
 var uint c ; 
-var uint function strtoint ( string a ) ; 
 c = strtoint ( ay ) + bi ; 
 return c ; 
 } ; 
@@ -33,24 +35,21 @@ x = 1 * 2 + 9 ;
 x = ~ x ; 
 print x ; 
 y = 8 / 2 ; 
-bl = true ; 
-bg = false ; 
 z = 063 ; 
 print z ; 
-z = b1101101 ; 
+z = b1101000 ; 
 print z ; 
 y = x & y ; 
 print y ; 
-symb = 'f' ; 
+symb = '' ; 
 sa = "edftrffdf fgd sw " ; 
-sb = sa + symb ; 
+sb = strcat ( sa , symb ) ; 
 print sb ; 
 sb = "29" ; 
 x = fifi ( 3 , y ) ; 
 y = fsfs ( sb , x ) ; 
 print x ; 
 print y ; 
-var uint function cntchstr ( ch n , string p ) ; 
 print cntchstr ( symb , sa ) ; 
 return 0 ; 
 } ; 

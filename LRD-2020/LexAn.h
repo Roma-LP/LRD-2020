@@ -10,7 +10,6 @@ namespace LA
 	bool Duplicate(char* word, IT::IdTable& newIT_Table);		// поиск копий литералов в таблице идентификаторов
 	bool Call_Function(IT::IdTable& newIT_Table, char *name); // проверка на вызов функции
 	int FindidinTI(IT::IdTable& newIT_Table, IT::Entry& entry); // поиск индекса в таблице идентификаторов дл€ лексемы
-	int Convert8to10(char* s); // конвертируем из весмеричной в дес€тичную систему счислени€
-	int Convert2to10(char* s); // конвертируем из двоичной в дес€тичную систему счислени€
-	void CheckEightLiteral(char*s); // проверка на восмиричный литерал
+	void Convert8to10(char* s); // конвертируем из весмеричной в дес€тичную систему счислени€
+	void Convert2to10(char* s); // конвертируем из двоичной в дес€тичную систему счислени€
 }

@@ -74,7 +74,7 @@ namespace LA
 			}
 			//if (line==14 && i==300)
 			//if (countLexem == 160)
-			if (i == 823)
+			if (i == 668)
 				cout << "69";
 
 		}
@@ -332,7 +332,7 @@ namespace LA
 		if (execute(fstLiteralOfIntegerEight)) {
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 1;
-			*word = Convert8to10(word);
+			Convert8to10(word);
 			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
 				IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
@@ -349,7 +349,7 @@ namespace LA
 		if (execute(fstLiteralOfIntegerTwo)) {
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 1;
-			*word = Convert2to10(word);
+			Convert2to10(word);
 			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
 				IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
@@ -624,45 +624,28 @@ namespace LA
 		return false;
 	}
 
-	int Convert8to10(char* s) {
-
-		short n = strlen(s);
-		int res = 0;
-		for (int i = 0; i < n; ++i) {
-			res *= 8;
-			res += (s[i] - '0');
-		}
-		return res;
+	void Convert8to10(char* s) {
+			short n = strlen(s);
+			int res = 0;
+			for (int i = 0; i < n; ++i) {
+				res *= 8;
+				res += (s[i] - '0');
+			}
+			itoa(res, s, 10); // что, куда, система счисления
 	}
-	int Convert2to10(char* s) {
-
-		short n = strlen(s);
-		int res = 0;
-		for (int i = 0; i < n; ++i) {
-			res *= 2;
-			res += (s[i] - '0');
-		}
-		return res;
-	}
-
-	void CheckEightLiteral(char*s)
-	{
-		if (s[0] != '0')
-			return;
-		else
-		{
-			for (short i = 1; i < strlen(s); i++)
-			{
-				if (s[i] != '8' || s[i] != '9')
+	void Convert2to10(char* s) {
+			short n = strlen(s);
+			short step = strlen(s) - 2; // для подсчета степени и -1 т.к. не надо символ b и от нуля идут степени
+			int res = 0;
+			for (int i = 1; i < n; ++i, --step) {
+				if (s[i] == '0')
 					continue;
-				else
+				if (s[i] == '1')
 				{
-					return;
+					res = res + pow(2, step);
 				}
 			}
-			int res = Convert8to10(s);
-			_itoa(res, s, 10);
-		}
+			cout << res;
+			itoa(res, s, 10); // что, куда, система счисления
 	}
-
 }

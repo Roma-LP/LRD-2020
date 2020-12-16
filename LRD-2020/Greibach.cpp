@@ -7,11 +7,13 @@ namespace GRB
 	Greibach greibach(NS('S'), TS('$'), // стартовый символ, дно стека
 		6,								// количество правил 
 		Rule(NS('S'), GRB_ERROR_SERIES + 0,  // неверная структура программы
-			4,  // m{NrE;}; | tfi(F){NrE;};S | m{NrE;};S | tfi(F){NrE;}; 
+			6,  // m{NrE;}; | tfi(F){NrE;};S | m{NrE;};S | tfi(F){NrE;}; | vtfi(F); | vtfi(F);S |//NS | //N;
 			Rule::Chain(8, TS('m'), TS('{'), NS('N'), TS('r'), NS('E'), TS(';'), TS('}'), TS(';')), //
 			Rule::Chain(14, TS('t'), TS('f'), TS('i'), TS('('), NS('F'), TS(')'), TS('{'), NS('N'), TS('r'), NS('E'), TS(';'), TS('}'), TS(';'), NS('S')), //
 			Rule::Chain(9, TS('m'), TS('{'), NS('N'), TS('r'), NS('E'), TS(';'), TS('}'), TS(';'), NS('S')),  //
-			Rule::Chain(13, TS('t'), TS('f'), TS('i'), TS('('), NS('F'), TS(')'), TS('{'), NS('N'), TS('r'), NS('E'), TS(';'), TS('}'), TS(';')) //
+			Rule::Chain(13, TS('t'), TS('f'), TS('i'), TS('('), NS('F'), TS(')'), TS('{'), NS('N'), TS('r'), NS('E'), TS(';'), TS('}'), TS(';')), //
+			Rule::Chain(8, TS('v'), TS('t'), TS('f'), TS('i'), TS('('), NS('F'), TS(')'), TS(';')),  //
+			Rule::Chain(9, TS('v'), TS('t'), TS('f'), TS('i'), TS('('), NS('F'), TS(')'), TS(';'), NS('S'))  //
 		),
 		Rule(NS('N'), GRB_ERROR_SERIES + 1,  // ошибочный оператор
 			16, // vti; | rE; | i=E; | vtfi(F); | vti;N | rE;N | i=E;N | i=M;N | i=M; | vtfi(F);N  | pE;N  pE;  | u(E){N}N | u(E){N}e{N}N | u(E){N} | u(E){N}e{N}

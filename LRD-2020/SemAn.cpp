@@ -31,6 +31,7 @@ namespace SA
 
 	void FindAndCheck(short num, LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
 	{
+		short errorLine=0;//для возможной ошибки строка
 		for (short i = startMain; i < newLT_Table.size; i++)
 		{
 			if (newLT_Table.table[i].idxTI == num && newLT_Table.table[i-1].lexema!='f')  // ищем саму функцию
@@ -43,6 +44,7 @@ namespace SA
 						continue;
 					}
 					index = newLT_Table.table[i].idxTI;
+					errorLine = newLT_Table.table[i].sn;
 					CallParam.push(newIT_Table.table[index].iddatatype);
 				}
 				for (short i = num; i < newIT_Table.size; i++)  // начинаем заполнять стек для проверки
@@ -56,7 +58,7 @@ namespace SA
 				}
 			}
 		}
-		ParamCheck(CallParam.size(), PrototypeParam.size()); // проверка на количесвто параметров
+		ParamCheck(CallParam.size(), PrototypeParam.size(),errorLine); // проверка на количесвто параметров
 
 		for (short i = 0; i < CallParam.size(); i++)
 		{
@@ -67,7 +69,7 @@ namespace SA
 			}
 			else
 			{
-				throw ERROR_THROW(700);
+				throw ERROR_THROW_IN(700,errorLine,0);
 			}
 		}
 	}
@@ -87,12 +89,12 @@ namespace SA
 		}
 	}
 
-	void ParamCheck(short a, short b)
+	void ParamCheck(short a, short b,short lin)
 	{
 		if (a == b)
 			return;
 		else
-			throw ERROR_THROW(701);
+			throw ERROR_THROW_IN(701,lin,0);
 	}
 
 	void FuncRet(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
@@ -105,7 +107,7 @@ namespace SA
 		{
 			if (newLT_Table.table[i].lexema == 'f' && newLT_Table.table[i-2].lexema!='v')
 			{
-				index = newLT_Table.table[i+1].idxTI;  // переменную записыаем
+				index = newLT_Table.table[i+1].idxTI;  // переменную записываем
 				typefunk = newIT_Table.table[index].iddatatype;
 			}
 			if (newLT_Table.table[i].lexema == 'm')
@@ -138,7 +140,7 @@ namespace SA
 					}
 				}
 				if (!(typefunk== typerereturn))
-					throw ERROR_THROW_IN(703, newLT_Table.table[i + 1].sn,-1);
+					throw ERROR_THROW_IN(703, newLT_Table.table[i + 1].sn,0);
 			}
 		}
 	}
@@ -158,8 +160,15 @@ namespace SA
 					if (newLT_Table.table[i].lexema == 'l' || newLT_Table.table[i].lexema == 'i')
 					{
 						index = newLT_Table.table[i].idxTI;  // переменную записыаем
+						if (newIT_Table.table[index].idtype == 2) // если натыкаемся на вызов функции, 
+						{
+							for(;newLT_Table.table[i].lexema!=')';i++)//то достаточно проверить типо возращаемого значения и пропустить параметры
+							{
+								//cout << newLT_Table.table[i].lexema << endl;
+							}
+						}
 						if (typevar != newIT_Table.table[index].iddatatype)
-							throw ERROR_THROW_IN(702, newLT_Table.table[i].sn, -1);
+							throw ERROR_THROW_IN(702, newLT_Table.table[i].sn, 0);
 					}
 				}
 			}
@@ -169,6 +178,7 @@ namespace SA
 	void OutData(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
 	{
 		short sum = 0;
+		char operation; // символ для операции
 		for (short i = 0; i < newLT_Table.size; i++)
 		{
 			if (newLT_Table.table[i].lexema == '=')
@@ -178,22 +188,35 @@ namespace SA
 					if (newLT_Table.table[i].lexema == 'l')
 					{
 						index = newLT_Table.table[i].idxTI;  // переменную записыаем
-						switch (newIT_Table.table[index].iddatatype)
+						if(newIT_Table.table[index].iddatatype)
 						{
-						case 1:
-						{
+							switch (operation)
+							{
+							case '+':
+							{
+								sum+=
+								break;
+							}
+							case '-':
+							{
+								break;
+							}
+							case '*':
+							{
+								break;
+							}
+							case '/':
+							{
+								break;
+							}
+							default:
+								break;
+							}
 							sum += newIT_Table.table[index].value.vint;
 							break;
 						}
-						case 2:
-						{
-							sum += newIT_Table.table[index].value.vstr->len;
-							break;
-						}
-						default:
-						break;
-						}
 					}
+					if()
 				}
 				if ( sum > 127 || -128 > sum)
 				{
@@ -204,4 +227,20 @@ namespace SA
 		}
 	}
 
+	void CheckChar(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
+	{
+		for (int i = 0; i < newLT_Table.size; i++)
+		{
+			if (newLT_Table.table[i].lexema == 'l') // выбираем литералы
+			{
+				index = newLT_Table.table[i].idxTI;  // переменную записыаем
+				if (newIT_Table.table[index].iddatatype == 4) // с типом char
+				{
+					if(newIT_Table.table[index].value.vstr->str[2]!='\'')
+					if(newIT_Table.table[index].value.vstr->str[1]!='\'')
+						throw ERROR_THROW_IN(705, newLT_Table.table[i].sn, 0);
+				}
+			}
+		}
+	}
 }
