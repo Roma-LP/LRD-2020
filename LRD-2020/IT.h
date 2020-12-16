@@ -4,20 +4,21 @@
 #define ID_MAXSIZE		5			// максимальное количество символов в идентификаторе
 #define TI_MAXSIZE		4096		// максимальное количество строк в таблице идентификаторов
 #define TI_INT_DEFAULT	0x00000000	// значение по умолчанию для типа integer
-#define TI_STR_DEFAULT	0x00		// значение по умолчанию для типа string
+#define TI_STR_DEFAULT	0x00		// значение по умолчанию для типа string/char
+#define TI_BOOL_DEFAULT	false		// значение по умолчанию для типа boolean
 #define TI_NULLIDX		0xffffffff	// нет элемента таблицы идентификаторов
 #define TI_STR_MAXSIZE	255				 
 
 namespace IT			// таблица идентификаторов
 {
-	enum IDDATATYPE	 { UINT = 1, STR = 2, BOOL = 3, INT = 4, CHR = 5};	// типы данных идентификаторов: uninteger, string, bool, integer, char
+	enum IDDATATYPE	 { INT = 1, STR = 2, BOOL = 3, CHR = 4};	// типы данных идентификаторов: integer, string, bool, char
 	enum IDTYPE		 { V = 1, F = 2, P = 3, L = 4 };	// типы идентификаторов: переменная, функция, параметр, литерал
 
 	struct Entry		// строка таблицы идентификаторов
 	{
 		int			idxfirstLE;			// индекс первой строки в таблице лексем
 		char		id[15];	// идентификатор (автоматически усекается до ID_MAXSIZE)
-		IDDATATYPE	iddatatype;			// тип данных идентификаторов: uninteger, string, bool, integer, char
+		IDDATATYPE	iddatatype;			// тип данных идентификаторов: integer, string, bool, char
 		IDTYPE		idtype;				// тип идентификатора: переменная, функция, параметр, литерал
 		std::string		idscope;			// область видимости: глобальная, главная(Main) функция, функция
 		union

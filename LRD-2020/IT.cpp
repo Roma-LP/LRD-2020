@@ -6,17 +6,17 @@
 namespace IT
 {
 	/* создать таблицу идентификаторов*/
-	IdTable Create(	int size)	// емкость таблицы идентификаторов < TI_MAXSIZE
+	IdTable Create(int size)	// емкость таблицы идентификаторов < TI_MAXSIZE
 	{
 		if (size >= TI_MAXSIZE)
 			throw ERROR_THROW(114);
 		IdTable itable = { size, 0, new Entry[size] };
-		return itable;	
+		return itable;
 	}
 
 	/* добавить строку в таблицу идентификаторов*/
 	void Add(IdTable& idtable, Entry entry)  //экземпл€р таблицы идентификаторов, строка таблицы идентификаторов
-	{										 
+	{
 		idtable.table[idtable.size++] = entry;
 		if (idtable.size >= idtable.maxsize)
 			throw ERROR_THROW(113);
@@ -24,7 +24,7 @@ namespace IT
 
 	/*получить строку таблицы идентификаторов*/
 	Entry GetEntry(IdTable& idtable, int n) //экземпл€р таблицы идентификаторов, номер получаемой строки
-	{										  
+	{
 		if (idtable.size < n || n < 0)
 			throw ERROR_THROW(6);
 		return idtable.table[n];
@@ -57,81 +57,84 @@ namespace IT
 		{
 			char numberCH[3];   // переменна€ дл€ числа
 			_itoa_s(*countLiteral, numberCH, 10);  // переводим число в строку
-			char str[7]="Lit_";  // им€ дл€ литерала
+			char str[7] = "Lit_";  // им€ дл€ литерала
 			strcat_s(str, numberCH);  // объедин€ем им€ с номером
 			strcpy(newItEntry.id, str); // добавл€ем (копируем) в структуру им€
 			newItEntry.iddatatype = (IT::IDDATATYPE) typeData;
 			newItEntry.idtype = (IT::IDTYPE) typeID;
 			newItEntry.idscope = typeScope;
 			newItEntry.idxfirstLE = line;
-			if ((int)newItEntry.iddatatype != 2)  // проверка на integer
+			switch ((int)newItEntry.iddatatype)
 			{
+			case 1: { // integer
 				newItEntry.value.vint = atoi(id);
+				break;
 			}
-			else
-			{
-				if ((int)newItEntry.iddatatype == 3)
+			case 4:   // char
+			case 2: { // string
+				newItEntry.value.vstr->len = strlen(id);
+				strcpy_s(newItEntry.value.vstr->str, id);
+				break;
+			}
+			case 3: { // bool
+				if (strcmp(id, "true") == 0)
 				{
-					if (strcmp(id, "true") == 0)
-					{
-						newItEntry.value.vbool = 1;
-						return newItEntry;
-					}
-					else
-					{
-						if (strcmp(id, "false") == 0)
-						{
-							newItEntry.value.vbool = 0;
-							return newItEntry;
-						}
-					}
-					newItEntry.value.vbool = atoi(id);
+					newItEntry.value.vbool = 1;
 				}
 				else
 				{
-					newItEntry.value.vstr->len = strlen(id);
-					strcpy_s(newItEntry.value.vstr->str, id);
+					if (strcmp(id, "false") == 0)
+					{
+						newItEntry.value.vbool = 0;
+					}
 				}
+				//newItEntry.value.vbool = atoi(id);
+				break;
+			}
+			default:std::cout << "неопред1 тип " << newItEntry.id;
 			}
 		}
 		else  // если это не литерал
 		{
 			short n = strlen(id); // длина идентификатора 
+			int i = 0;
 			if (isStLib(id))  //проверка на стандартную библиотеку
 			{
-				for (int i = 0; i < n; i++) // без обрезки длины
+				for (i = 0; i < n; i++) // без обрезки длины
 				{
 					newItEntry.id[i] = id[i];
 				}
 			}
 			else
 			{
-				for (int i = 0; (i < n) && (i < ID_MAXSIZE); i++) // обрезка длины
+				for (i = 0; (i < n) && (i < ID_MAXSIZE); i++) // обрезка длины
 				{
 					newItEntry.id[i] = id[i];
 				}
 			}
-			newItEntry.id[n] = '\0'; // конец идентификатора
+			newItEntry.id[i] = '\0'; // конец идентификатора
 			newItEntry.iddatatype = (IT::IDDATATYPE) typeData;
 			newItEntry.idtype = (IT::IDTYPE) typeID;
 			newItEntry.idscope = typeScope;
 			newItEntry.idxfirstLE = line;
-			if ((int)newItEntry.iddatatype == 1)  // установка значений по умолчанию
+			switch ((int)newItEntry.iddatatype) // установка значений по умолчанию
 			{
+			case 1: { // integer
 				newItEntry.value.vint = TI_INT_DEFAULT;
+				break;
 			}
-			else
-			{
-				if ((int)newItEntry.iddatatype == 3)
-				{
-					newItEntry.value.vbool = false;
-				}
-				else
-				{
-					newItEntry.value.vstr->len = 0;
-					newItEntry.value.vstr->str[0] = TI_STR_DEFAULT;
-					newItEntry.value.vstr->str[1] = '\0';
-				}
+			case 4:   // char
+			case 2: { // string
+				newItEntry.value.vstr->len = 0;
+				newItEntry.value.vstr->str[0] = TI_STR_DEFAULT;
+				newItEntry.value.vstr->str[1] = '\0';
+				break;
+			}
+			case 3: { // bool
+				newItEntry.value.vbool = TI_BOOL_DEFAULT;
+				break;
+			}
+			default:std::cout << "неопред4 тип " << newItEntry.id;
 			}
 		}
 		return newItEntry;
@@ -145,8 +148,11 @@ namespace IT
 		if (strcmp(id, "substr") == 0) return true;
 		if (strcmp(id, "strlen") == 0) return true;
 
+		if (strcmp(id, "cntchstr") == 0) return true;
+		if (strcmp(id, "strtoint") == 0) return true;
+
 		return false;
 	}
 
-}													 
+}
 

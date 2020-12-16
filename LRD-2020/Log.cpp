@@ -152,6 +152,7 @@ namespace Log
 			case 1: {*log.stream << "integer" << "\t\t"; break; }
 			case 2: {*log.stream << "string " << "\t\t"; break; }
 			case 3: {*log.stream << "boolean" << "\t\t"; break; }
+			case 4: {*log.stream << "char" << "\t\t"; break; }
 			}
 
 			*log.stream << newIT_Table.table[i].idscope << "\t\t\t";  // вывод области видимости идентификатора
@@ -161,6 +162,7 @@ namespace Log
 			case 1: {*log.stream << newIT_Table.table[i].value.vint; break; }
 			case 2: {*log.stream << newIT_Table.table[i].value.vstr->str; break; }
 			case 3: {*log.stream << newIT_Table.table[i].value.vbool; break; }
+			case 4: {*log.stream << newIT_Table.table[i].value.vstr->str; break; }
 			}
 
 			*log.stream << "\t\t\t" << newIT_Table.table[i].idxfirstLE << endl; // вывод первого вхождения идентификатора

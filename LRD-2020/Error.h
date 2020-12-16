@@ -3,7 +3,7 @@
 #define ERROR_THROW_IN(id, line, column) Error::getErrorIn(id, line, column);	//throw ERROR_TROW(id,line, column)
 #define ERROR_ENTRY(id,m) {id, m,{-1,-1}}		//элемент таблицы ошибок
 #define ERROR_MAXSIZE_MESSAGE 200				//длина макс сообщения об ошибке
-#define ERROR_ENTRY_NODEF(id) ERROR_ENTRY(id,"Неопред ошибка")					//-1 неопред элемент табл ошибок
+#define ERROR_ENTRY_NODEF(id) ERROR_ENTRY(id,"Неопред ошибка")					//-1 неопредиленный элемент табл ошибок
 // ERROR_ENTRY_NODEF10(id) - 10 неопределеных	элементы табл ошибок
 #define ERROR_ENTRY_NODEF10(id) ERROR_ENTRY_NODEF(id+0), ERROR_ENTRY_NODEF(id+1), ERROR_ENTRY_NODEF(id+2), \
 								ERROR_ENTRY_NODEF(id+3), ERROR_ENTRY_NODEF(id+4), ERROR_ENTRY_NODEF(id+5), \

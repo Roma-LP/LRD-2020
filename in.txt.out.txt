@@ -1,7 +1,56 @@
-var ch symbol = 'ddb   bb   bb    c' ; 
-sa = "f  irst   w or d   " ; 
-sb = "s  aw " ; 
-print "контро   ль   ный пример" ; 
-print symbol ; 
-var ch symbol = '  dd c' ; 
+uint function fifi ( uint x , uint y ) 
+{ 
+var uint z ; 
+z = x * ( x + y ) ; 
+if ( z ) 
+{ 
+print 'положительно!!!' ; 
+} 
+else 
+{ 
+print 'отрицательно!!!' ; 
+} 
+return z ; 
+} ; 
+uint function fsfs ( string ay , uint bi ) 
+{ 
+var uint c ; 
+var uint function strtoint ( string a ) ; 
+c = strtoint ( ay ) + bi ; 
+return c ; 
+} ; 
+main 
+{ 
+var uint x ; 
+var uint y ; 
+var uint z ; 
+var string sa ; 
+var string sb ; 
+var ch symb ; 
+var bool bl ; 
+var bool bg ; 
+x = 1 * 2 + 9 ; 
+x = ~ x ; 
+print x ; 
+y = 8 / 2 ; 
+bl = true ; 
+bg = false ; 
+z = 063 ; 
+print z ; 
+z = b1101101 ; 
+print z ; 
+y = x & y ; 
+print y ; 
+symb = 'f' ; 
+sa = "edftrffdf fgd sw " ; 
+sb = sa + symb ; 
+print sb ; 
+sb = "29" ; 
+x = fifi ( 3 , y ) ; 
+y = fsfs ( sb , x ) ; 
+print x ; 
+print y ; 
+var uint function cntchstr ( ch n , string p ) ; 
+print cntchstr ( symb , sa ) ; 
+return 0 ; 
 } ; 

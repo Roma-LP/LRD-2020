@@ -16,10 +16,10 @@ namespace LA
 {
 	short IDDATATYPE;								// типы данных идентификаторов: integer, string
 	short IDTYPE;									// типы идентификаторов: переменная, функция, параметр, литерал
-	string IDSCOPE ="Global";/* по умолчанию глобальная |*/	// область видимости: глобальная, главная(Main) функция, функция
+	string IDSCOPE = "Global";/* по умолчанию глобальная |*/	// область видимости: глобальная, главная(Main) функция, функция
 	stack<string> IDSCOPE_PREV;						 // предыдущая обсласть видимости (стек)
-	bool isfunk = false;  
-	bool ismain = false;  
+	bool isfunk = false;
+	bool ismain = false;
 	short countLiteral = 0;							// счетчик литералов
 	short indexinIT = 0;							// индекс идентификатора для лексемы
 	short countLexem = 0;							// номер лексемы
@@ -27,7 +27,7 @@ namespace LA
 	short line = 0;									//номер строки лексем
 	short letter = 0;								 //нобер буквы в строке
 
-	
+
 
 	void LexicalAnalizator(In::IN newIN, LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
 	{
@@ -35,7 +35,7 @@ namespace LA
 		char currentLexem[50]; //данная лексема
 		short cLcount = 0; //счетчик букв лексемы
 		unsigned char* in = newIN.textFormated;  // идентификатор = newIN.textFormated
-		bool snglquts = false; // флаг для записи строк '...'
+		bool snglquts = false; // флаг для записи строк "" ''
 		short n = strlen((char*)newIN.textFormated);
 		for (unsigned short i = 0; i < n; i++)
 		{
@@ -43,7 +43,7 @@ namespace LA
 			{
 				if (in[i] != ' ')
 				{
-					if (in[i] == '\'')
+					if (in[i] == '\'' || in[i] == '"')
 					{
 						snglquts = !snglquts;
 					}
@@ -73,24 +73,20 @@ namespace LA
 				letter = 0;
 			}
 			//if (line==14 && i==300)
-			//if (line == 34)
-				//cout << "69";
+			//if (countLexem == 160)
+			if (i == 823)
+				cout << "69";
 
 		}
 		if (countMain == 0)
-			throw ERROR_THROW(605);   // проверяем на main функцию
-		if (countMain!=1)
-			throw ERROR_THROW(606);  // проверяем на количесвто main функций
+			throw ERROR_THROW(500);   // проверяем на main функцию
+		if (countMain != 1)
+			throw ERROR_THROW(501);  // проверяем на количесвто main функций
 	}
 	//разбор
 	void Parsing(char* word, short countLexem, LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
 	{
-		FST::FST fstInteger(word, 4,
-			FST::NODE(1, FST::RELATION('i', 1)),
-			FST::NODE(1, FST::RELATION('n', 2)),
-			FST::NODE(1, FST::RELATION('t', 3)),
-			FST::NODE());
-		FST::FST fstUnInteger(word, 5,
+		FST::FST fstInteger(word, 5,
 			FST::NODE(1, FST::RELATION('u', 1)),
 			FST::NODE(1, FST::RELATION('i', 2)),
 			FST::NODE(1, FST::RELATION('n', 3)),
@@ -189,67 +185,57 @@ namespace LA
 			FST::NODE()
 		);
 		FST::FST fstLiteralOfInteger(word, 2,
-			FST::NODE(20, FST::RELATION('0', 0), FST::RELATION('1', 0), FST::RELATION('2', 0), FST::RELATION('3', 0), FST::RELATION('4', 0), FST::RELATION('5', 0), FST::RELATION('6', 0),
+			FST::NODE(19, FST::RELATION('1', 0), FST::RELATION('2', 0), FST::RELATION('3', 0), FST::RELATION('4', 0), FST::RELATION('5', 0), FST::RELATION('6', 0),
 				FST::RELATION('7', 0), FST::RELATION('8', 0), FST::RELATION('9', 0),
 				FST::RELATION('0', 1), FST::RELATION('1', 1), FST::RELATION('2', 1), FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1),
 				FST::RELATION('7', 1), FST::RELATION('8', 1), FST::RELATION('9', 1)),
-			FST::NODE()
-		);
-		/* мои
-		FST::FST fstLiteralOfIntegerTen(word, 3,
-			FST::NODE(9, FST::RELATION('1', 1), FST::RELATION('2', 1), FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1),
-				FST::RELATION('7', 1), FST::RELATION('8', 1), FST::RELATION('9', 1)),
-			FST::NODE(20, FST::RELATION('0', 1), FST::RELATION('1', 1), FST::RELATION('2', 1), FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1),
-				FST::RELATION('7', 1), FST::RELATION('8', 1), FST::RELATION('9', 1),
-				FST::RELATION('0', 2), FST::RELATION('1', 2), FST::RELATION('2', 2), FST::RELATION('3', 2), FST::RELATION('4', 2), FST::RELATION('5', 2), FST::RELATION('6', 2),
-				FST::RELATION('7', 2), FST::RELATION('8', 2), FST::RELATION('9', 2)),
 			FST::NODE()
 		);
 		FST::FST fstLiteralOfIntegerEight(word, 3,
 			FST::NODE(1, FST::RELATION('0', 1)),
 			FST::NODE(16, FST::RELATION('0', 1), FST::RELATION('1', 1), FST::RELATION('2', 1), FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1),
-				FST::RELATION('7', 1), FST::RELATION('0', 2), FST::RELATION('1', 2), FST::RELATION('2', 2), FST::RELATION('3', 2), FST::RELATION('4', 2), FST::RELATION('5', 2), FST::RELATION('6', 2),
+				FST::RELATION('7', 1),
+				FST::RELATION('0', 2), FST::RELATION('1', 2), FST::RELATION('2', 2), FST::RELATION('3', 2), FST::RELATION('4', 2), FST::RELATION('5', 2), FST::RELATION('6', 2),
 				FST::RELATION('7', 2)),
 			FST::NODE()
-		);*/
-
-		/* влдаа
-		FST::FST fstLiteralOfIntegerEight(word, 2,
-			FST::NODE(1, FST::RELATION('0', 1)),
-			FST::NODE(16, FST::RELATION('0', 0), FST::RELATION('1', 0), FST::RELATION('2', 0), FST::RELATION('3', 0), FST::RELATION('4', 0), FST::RELATION('5', 0), FST::RELATION('6', 0),
-				FST::RELATION('7', 0),
-				FST::RELATION('0', 1), FST::RELATION('1', 1), FST::RELATION('2', 1), FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1),
-				FST::RELATION('7', 1)),
+		);
+		FST::FST fstLiteralOfIntegerTwo(word, 3,
+			FST::NODE(1, FST::RELATION('b', 1)),
+			FST::NODE(4, FST::RELATION('0', 1), FST::RELATION('1', 1),
+				FST::RELATION('0', 2), FST::RELATION('1', 2)),
 			FST::NODE()
 		);
-		FST::FST fstLiteralOfIntegerTen(word, 2,
-			FST::NODE(20, FST::RELATION('0', 0), FST::RELATION('1', 0), FST::RELATION('2', 0), FST::RELATION('3', 0), FST::RELATION('4', 0), FST::RELATION('5', 0), FST::RELATION('6', 0),
-				FST::RELATION('7', 0), FST::RELATION('8', 0), FST::RELATION('9', 0),
-				FST::RELATION('0', 1), FST::RELATION('1', 1), FST::RELATION('2', 1), FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1),
-				FST::RELATION('7', 1), FST::RELATION('8', 1), FST::RELATION('9', 1)),
-			FST::NODE()
-		);*/
-
-		FST::FST fstId(word, 2,
-			FST::NODE(72,			   FST::RELATION('a', 0), FST::RELATION('b', 0), FST::RELATION('c', 0), FST::RELATION('d', 0), FST::RELATION('e', 0),
-				FST::RELATION('f', 0), FST::RELATION('g', 0), FST::RELATION('h', 0), FST::RELATION('i', 0), FST::RELATION('j', 0), FST::RELATION('k', 0),
-				FST::RELATION('l', 0), FST::RELATION('m', 0), FST::RELATION('n', 0), FST::RELATION('o', 0), FST::RELATION('p', 0), FST::RELATION('q', 0),
-				FST::RELATION('r', 0), FST::RELATION('s', 0), FST::RELATION('t', 0), FST::RELATION('u', 0), FST::RELATION('v', 0), FST::RELATION('w', 0),
-				FST::RELATION('x', 0), FST::RELATION('y', 0), FST::RELATION('z', 0), FST::RELATION('0', 0), FST::RELATION('1', 0), FST::RELATION('2', 0),
-				FST::RELATION('3', 0), FST::RELATION('4', 0), FST::RELATION('5', 0), FST::RELATION('6', 0), FST::RELATION('7', 0), FST::RELATION('8', 0),
-				FST::RELATION('9', 0), 
-				FST::RELATION('a', 1), FST::RELATION('b', 1), FST::RELATION('c', 1), FST::RELATION('d', 1), FST::RELATION('e', 1),
+		FST::FST fstId(word, 3,
+			FST::NODE(52, FST::RELATION('a', 1), FST::RELATION('b', 1), FST::RELATION('c', 1), FST::RELATION('d', 1), FST::RELATION('e', 1),
+				FST::RELATION('f', 1), FST::RELATION('g', 1), FST::RELATION('h', 1), FST::RELATION('i', 1), FST::RELATION('j', 1), FST::RELATION('k', 1),
+				FST::RELATION('l', 1), FST::RELATION('m', 1), FST::RELATION('n', 1), FST::RELATION('o', 1), FST::RELATION('p', 1), FST::RELATION('q', 1),
+				FST::RELATION('r', 1), FST::RELATION('s', 1), FST::RELATION('t', 1), FST::RELATION('u', 1), FST::RELATION('v', 1), FST::RELATION('w', 1),
+				FST::RELATION('x', 1), FST::RELATION('y', 1), FST::RELATION('z', 1),
+				FST::RELATION('a', 2), FST::RELATION('b', 2), FST::RELATION('c', 2), FST::RELATION('d', 2), FST::RELATION('e', 2),
+				FST::RELATION('f', 2), FST::RELATION('g', 2), FST::RELATION('h', 2), FST::RELATION('i', 2), FST::RELATION('j', 2), FST::RELATION('k', 2),
+				FST::RELATION('l', 2), FST::RELATION('m', 2), FST::RELATION('n', 2), FST::RELATION('o', 2), FST::RELATION('p', 2), FST::RELATION('q', 2),
+				FST::RELATION('r', 2), FST::RELATION('s', 2), FST::RELATION('t', 2), FST::RELATION('u', 2), FST::RELATION('v', 2), FST::RELATION('w', 2),
+				FST::RELATION('x', 2), FST::RELATION('y', 2), FST::RELATION('z', 2)),
+			FST::NODE(72, FST::RELATION('a', 1), FST::RELATION('b', 1), FST::RELATION('c', 1), FST::RELATION('d', 1), FST::RELATION('e', 1),
 				FST::RELATION('f', 1), FST::RELATION('g', 1), FST::RELATION('h', 1), FST::RELATION('i', 1), FST::RELATION('j', 1), FST::RELATION('k', 1),
 				FST::RELATION('l', 1), FST::RELATION('m', 1), FST::RELATION('n', 1), FST::RELATION('o', 1), FST::RELATION('p', 1), FST::RELATION('q', 1),
 				FST::RELATION('r', 1), FST::RELATION('s', 1), FST::RELATION('t', 1), FST::RELATION('u', 1), FST::RELATION('v', 1), FST::RELATION('w', 1),
 				FST::RELATION('x', 1), FST::RELATION('y', 1), FST::RELATION('z', 1), FST::RELATION('0', 1), FST::RELATION('1', 1), FST::RELATION('2', 1),
 				FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1), FST::RELATION('7', 1), FST::RELATION('8', 1),
-				FST::RELATION('9', 1)),
+				FST::RELATION('9', 1),
+
+				FST::RELATION('a', 2), FST::RELATION('b', 2), FST::RELATION('c', 2), FST::RELATION('d', 2), FST::RELATION('e', 2),
+				FST::RELATION('f', 2), FST::RELATION('g', 2), FST::RELATION('h', 2), FST::RELATION('i', 2), FST::RELATION('j', 2), FST::RELATION('k', 2),
+				FST::RELATION('l', 2), FST::RELATION('m', 2), FST::RELATION('n', 2), FST::RELATION('o', 2), FST::RELATION('p', 2), FST::RELATION('q', 2),
+				FST::RELATION('r', 2), FST::RELATION('s', 2), FST::RELATION('t', 2), FST::RELATION('u', 2), FST::RELATION('v', 2), FST::RELATION('w', 2),
+				FST::RELATION('x', 2), FST::RELATION('y', 2), FST::RELATION('z', 2), FST::RELATION('0', 2), FST::RELATION('1', 2), FST::RELATION('2', 2),
+				FST::RELATION('3', 2), FST::RELATION('4', 2), FST::RELATION('5', 2), FST::RELATION('6', 2), FST::RELATION('7', 2), FST::RELATION('8', 2),
+				FST::RELATION('9', 2)),
 			FST::NODE()
 		);
 		FST::FST fstLiteralOfString(word, 3,
-			FST::NODE(1, FST::RELATION('\'', 1)),
-			FST::NODE(88,
+			FST::NODE(2, FST::RELATION('\'', 1), FST::RELATION('"', 1)),
+			FST::NODE(89,
 				FST::RELATION('\'', 2), FST::RELATION('a', 1), FST::RELATION('b', 1), FST::RELATION('c', 1), FST::RELATION('d', 1),
 				FST::RELATION('e', 1), FST::RELATION('f', 1), FST::RELATION('g', 1), FST::RELATION('h', 1), FST::RELATION('i', 1), FST::RELATION('j', 1),
 				FST::RELATION('k', 1), FST::RELATION('l', 1), FST::RELATION('m', 1), FST::RELATION('n', 1), FST::RELATION('o', 1), FST::RELATION('p', 1),
@@ -264,80 +250,74 @@ namespace LA
 				FST::RELATION('ы', 1), FST::RELATION('ь', 1), FST::RELATION('э', 1), FST::RELATION('ю', 1), FST::RELATION('я', 1), FST::RELATION(' ', 1),
 				FST::RELATION('!', 1), FST::RELATION('?', 1), FST::RELATION('.', 1), FST::RELATION(',', 1), FST::RELATION(';', 1), FST::RELATION('+', 1),
 				FST::RELATION('-', 1), FST::RELATION('*', 1), FST::RELATION('/', 1), FST::RELATION('&', 1), FST::RELATION('|', 1), FST::RELATION('~', 1),
-				FST::RELATION('(', 1), FST::RELATION(')', 1), FST::RELATION('{', 1), FST::RELATION('}', 1), FST::RELATION('=', 1)
+				FST::RELATION('(', 1), FST::RELATION(')', 1), FST::RELATION('{', 1), FST::RELATION('}', 1), FST::RELATION('=', 1), FST::RELATION('"', 2)
 			),
 			FST::NODE()
 		);
 		if (execute(fstInteger)) {
-			LT::Add(newLT_Table, LT::createStructLexem(LEX_INTEGER, line, LT_TI_NULLIDX));
-			IDDATATYPE = (IT::IDDATATYPE) 4;
-			return;
-		}
-		if (execute(fstUnInteger)) {
 			LT::Add(newLT_Table, LT::createStructLexem(LEX_UNINTEGER, line, LT_TI_NULLIDX));
 			IDDATATYPE = (IT::IDDATATYPE) 1;
 			return;
 		}
 		if (execute(fstString)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_STRING, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_STRING, line, LT_TI_NULLIDX));
 			IDDATATYPE = (IT::IDDATATYPE) 2;
 			return;
 		}
 		if (execute(fstBool)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_BOOL, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_BOOL, line, LT_TI_NULLIDX));
 			IDDATATYPE = (IT::IDDATATYPE) 3;
 			return;
 		}
 		if (execute(fstChar)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_CHAR, line, LT_TI_NULLIDX));
-			IDDATATYPE = (IT::IDDATATYPE) 5;
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_CHAR, line, LT_TI_NULLIDX));
+			IDDATATYPE = (IT::IDDATATYPE) 4;
 			return;
 		}
 		if (execute(fstFunction)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_FUNCTION, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_FUNCTION, line, LT_TI_NULLIDX));
 			IDTYPE = (IT::IDTYPE) 2;
 			isfunk = true;
 			return;
 		}
 		if (execute(fstVar)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_VAR, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_VAR, line, LT_TI_NULLIDX));
 			IDTYPE = (IT::IDTYPE) 1;
 			return;
 		}
 		if (execute(fstReturn)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_RETURN, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_RETURN, line, LT_TI_NULLIDX));
 			return;
 		}
 		if (execute(fstPrint)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_PRINT, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_PRINT, line, LT_TI_NULLIDX));
 			return;
 		}
 		if (execute(fstMain)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_MAIN, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_MAIN, line, LT_TI_NULLIDX));
 			ismain = true;
 			IDSCOPE_PREV.push(IDSCOPE);   // записываем область в которую надо будет вернуться
 			IDSCOPE = "Main";
-			countMain++; 
+			countMain++;
 			return;
 		}
 		if (execute(fstIf)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_IF, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_IF, line, LT_TI_NULLIDX));
 			return;
 		}
 		if (execute(fstElse)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_ELSE, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_ELSE, line, LT_TI_NULLIDX));
 			return;
 		}
 		if (execute(fstFor)) {
-			Add(newLT_Table, LT::createStructLexem(LEX_FOR, line, LT_TI_NULLIDX));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_FOR, line, LT_TI_NULLIDX));
 			return;
 		}
 		if (execute(fstLiteralOfInteger)) {
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 1;
-			CheckEightLiteral(word);
-			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "LIT", &countLiteral);
+			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
+				IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -349,12 +329,12 @@ namespace LA
 
 			return;
 		}
-		/*if (execute(fstLiteralOfIntegerEight)) {
+		if (execute(fstLiteralOfIntegerEight)) {
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 1;
 			*word = Convert8to10(word);
-			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "LIT", &countLiteral);
+			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
+				IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -365,12 +345,13 @@ namespace LA
 			LT::Add(newLT_Table, LT::createStructLexem(LEX_LITERAL, line, indexinIT));
 
 			return;
-		}*/
-		if (execute(fstLiteralOfString)) {
+		}
+		if (execute(fstLiteralOfIntegerTwo)) {
 			IDTYPE = (IT::IDTYPE) 4;
-			IDDATATYPE = (IT::IDDATATYPE) 2;
-			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "LIT", &countLiteral);
+			IDDATATYPE = (IT::IDDATATYPE) 1;
+			*word = Convert2to10(word);
+			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
+				IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -379,14 +360,33 @@ namespace LA
 			}
 			indexinIT = FindidinTI(newIT_Table, newEntry);   // находим индекс
 			LT::Add(newLT_Table, LT::createStructLexem(LEX_LITERAL, line, indexinIT));
-			
+
+			return;
+		}
+		if (execute(fstLiteralOfString)) {
+			IDTYPE = (IT::IDTYPE) 4;
+			if (word[0] == '"')
+				IDDATATYPE = (IT::IDDATATYPE) 2;
+			if (word[0] == '\'')
+				IDDATATYPE = (IT::IDDATATYPE) 4;
+			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
+				IDTYPE, "LIT", &countLiteral);
+			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
+			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
+			{
+				IT::Add(newIT_Table, newEntry);
+				countLiteral++;
+			}
+			indexinIT = FindidinTI(newIT_Table, newEntry);   // находим индекс
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_LITERAL, line, indexinIT));
+
 			return;
 		}
 		if (execute(fstLiteralOfFalse)) {
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 3;
-			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "LIT", &countLiteral);
+			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
+				IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -395,14 +395,14 @@ namespace LA
 			}
 			indexinIT = FindidinTI(newIT_Table, newEntry);   // находим индекс
 			LT::Add(newLT_Table, LT::createStructLexem(LEX_LITERAL, line, indexinIT));
-			
+
 			return;
 		}
 		if (execute(fstLiteralOfTrue)) {
 			IDTYPE = (IT::IDTYPE) 4;
 			IDDATATYPE = (IT::IDDATATYPE) 3;
-			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE, "LIT", &countLiteral);
+			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
+				IDTYPE, "LIT", &countLiteral);
 			IDTYPE = (IT::IDTYPE) 1; // по умолчанию устанавливаем
 			if (!Duplicate(word, newIT_Table))  // проверка на дубликат литерала
 			{
@@ -411,12 +411,12 @@ namespace LA
 			}
 			indexinIT = FindidinTI(newIT_Table, newEntry);   // находим индекс
 			LT::Add(newLT_Table, LT::createStructLexem(LEX_LITERAL, line, indexinIT));
-			
+
 			return;
 		}
 		if (execute(fstId)) {
-			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE ,
-													IDTYPE , IDSCOPE, &countLiteral);
+			IT::Entry newEntry = IT::createStructId(word, countLexem, IDDATATYPE,
+				IDTYPE, IDSCOPE, &countLiteral);
 			if (isfunk)
 			{
 				if (!Duplicate(word, newIT_Table))
@@ -429,10 +429,10 @@ namespace LA
 				}
 			}
 			bool idInTable = true; // есть ли такой идентификатор в таблице идентификаторов
-			
+
 			for (int i = 0; i < newIT_Table.size; i++)
 			{
-				if ((strcmp(newEntry.id, newIT_Table.table[i].id)==0))  // сравниваем на имя
+				if ((strcmp(newEntry.id, newIT_Table.table[i].id) == 0))  // сравниваем на имя
 				{
 					if (newEntry.idscope == newIT_Table.table[i].idscope) // сравеиваем на область видимости
 					{
@@ -465,54 +465,54 @@ namespace LA
 			{
 				if (newEntry.idtype == 1 && newLT_Table.table[countLexem - 2].lexema != 'v')  // проверка на 505 ошибку
 				{
-					throw ERROR_THROW_IN(505, line, letter); 
+					throw ERROR_THROW_IN(505, line, letter);
 				}
 				else
 				{
 					IT::Add(newIT_Table, newEntry);
 				}
 			}
-			
+
 			indexinIT = FindidinTI(newIT_Table, newEntry);   // находим индекс
 			LT::Add(newLT_Table, LT::createStructLexem(LEX_ID, line, indexinIT));
-			
+
 			return;
 		}
 		switch (*word)
 		{
 		case '(': {
-			Add(newLT_Table, LT::createStructLexem(LEX_LEFTHESIS, line, LT_TI_NULLIDX, *word));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_LEFTHESIS, line, LT_TI_NULLIDX, *word));
 			if (IDTYPE == (IT::IDTYPE) 2)
 				IDTYPE = (IT::IDTYPE) 3;
 			return;
 		}
 		case ')': {
-			Add(newLT_Table, LT::createStructLexem(LEX_RIGHTHESIS, line, LT_TI_NULLIDX, *word));
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_RIGHTHESIS, line, LT_TI_NULLIDX, *word));
 			if (IDTYPE == (IT::IDTYPE) 3)
 				IDTYPE = (IT::IDTYPE) 1;
 			return;
 		}
-		case '{': { Add(newLT_Table, LT::createStructLexem(LEX_LEFTBRACE, line, LT_TI_NULLIDX));  return; }
-		case '}': { Add(newLT_Table, LT::createStructLexem(LEX_BRACELET, line, LT_TI_NULLIDX)); return; }
-		case ';': { 
-					Add(newLT_Table, LT::createStructLexem(LEX_SEMICOLON, line, LT_TI_NULLIDX));
-					if ((newLT_Table.table[countLexem - 1].lexema == '}') || (newLT_Table.table[countLexem - 3].lexema == 't'))
-					{
-						isfunk = false;
-						ismain = false;
-						IDSCOPE = IDSCOPE_PREV.top(); // записываем в текущую область предыдущую, извлекая из стека верхний элемент
-						IDSCOPE_PREV.pop();  // удаляем верхний элемент из стека
-					}
-				return; }
-		case ',': { Add(newLT_Table, LT::createStructLexem(LEX_COMMA, line, LT_TI_NULLIDX));		 return; }
-		case '+': { Add(newLT_Table, LT::createStructLexem(LEX_PLUS, line, LT_TI_NULLIDX, *word));		 return; }
-		case '*': { Add(newLT_Table, LT::createStructLexem(LEX_STAR, line, LT_TI_NULLIDX, *word));		 return; }
-		case '/': { Add(newLT_Table, LT::createStructLexem(LEX_DIRSLASH, line, LT_TI_NULLIDX, *word));	 return; }
-		case '-': { Add(newLT_Table, LT::createStructLexem(LEX_MINUS, line, LT_TI_NULLIDX, *word));		 return; }
-		case '~': { Add(newLT_Table, LT::createStructLexem(LEX_INVERSION, line, LT_TI_NULLIDX, *word));		 return; }
-		case '|': { Add(newLT_Table, LT::createStructLexem(LEX_BATTERYOR, line, LT_TI_NULLIDX, *word));		 return; }
-		case '&': { Add(newLT_Table, LT::createStructLexem(LEX_BATTERYAND, line, LT_TI_NULLIDX, *word));		 return; }
-		case '=': { Add(newLT_Table, LT::createStructLexem(LEX_EQUAL, line, LT_TI_NULLIDX));		 return; }
+		case '{': { LT::Add(newLT_Table, LT::createStructLexem(LEX_LEFTBRACE, line, LT_TI_NULLIDX));  return; }
+		case '}': { LT::Add(newLT_Table, LT::createStructLexem(LEX_BRACELET, line, LT_TI_NULLIDX)); return; }
+		case ';': {
+			LT::Add(newLT_Table, LT::createStructLexem(LEX_SEMICOLON, line, LT_TI_NULLIDX));
+			if ((newLT_Table.table[countLexem - 1].lexema == '}') || (newLT_Table.table[countLexem - 3].lexema == 't'))
+			{
+				isfunk = false;
+				ismain = false;
+				IDSCOPE = IDSCOPE_PREV.top(); // записываем в текущую область предыдущую, извлекая из стека верхний элемент
+				IDSCOPE_PREV.pop();  // удаляем верхний элемент из стека
+			}
+			return; }
+		case ',': { LT::Add(newLT_Table, LT::createStructLexem(LEX_COMMA, line, LT_TI_NULLIDX));		 return; }
+		case '+': { LT::Add(newLT_Table, LT::createStructLexem(LEX_PLUS, line, LT_TI_NULLIDX, *word));		 return; }
+		case '*': { LT::Add(newLT_Table, LT::createStructLexem(LEX_STAR, line, LT_TI_NULLIDX, *word));		 return; }
+		case '/': { LT::Add(newLT_Table, LT::createStructLexem(LEX_DIRSLASH, line, LT_TI_NULLIDX, *word));	 return; }
+		case '-': { LT::Add(newLT_Table, LT::createStructLexem(LEX_MINUS, line, LT_TI_NULLIDX, *word));		 return; }
+		case '~': { LT::Add(newLT_Table, LT::createStructLexem(LEX_INVERSION, line, LT_TI_NULLIDX, *word));		 return; }
+		case '|': { LT::Add(newLT_Table, LT::createStructLexem(LEX_BATTERYOR, line, LT_TI_NULLIDX, *word));		 return; }
+		case '&': { LT::Add(newLT_Table, LT::createStructLexem(LEX_BATTERYAND, line, LT_TI_NULLIDX, *word));		 return; }
+		case '=': { LT::Add(newLT_Table, LT::createStructLexem(LEX_EQUAL, line, LT_TI_NULLIDX));		 return; }
 		}
 		throw ERROR_THROW_IN(502, line, letter);
 	}
@@ -523,31 +523,37 @@ namespace LA
 		{
 			if (newIT_Table.table[i].idtype == 4)  // выбираем литералы
 			{
-				if (newIT_Table.table[i].iddatatype == 2) // выбираем тип string
+				switch (newIT_Table.table[i].iddatatype)
+				{
+				case 1: // выбираем тип int
+				{
+					if (newIT_Table.table[i].value.vint == atoi(word)) // сравниваем значения integer, делая из строки в число перевод
+						return true;
+					break;
+				}
+				case 4: // выбираем тип char
+				case 2: // выбираем тип string
 				{
 					if (strcmp(word, newIT_Table.table[i].value.vstr->str) == 0) // сравниваем значения string
 						return true;
+					break;
 				}
-				if (newIT_Table.table[i].iddatatype == 1) // выбираем тип int
+				case 3: // выбираем тип bool
 				{
-					//----------------------------------------------------------------------------------
-					if (word[0] != '0' && atoi(word) == 0)
-						continue;
-					if (newIT_Table.table[i].value.vint==atoi(word)) // сравниваем значения integer, делая из строки в число перевод
-						return true;
+					if (atoi(word)) // конвертирует строку,в величину типа int В противном случае возвращается 0
+						if (newIT_Table.table[i].value.vbool == atoi(word)) // сравниваем значения bool, делая из строки в логическое
+							return true;
+					break;
 				}
-				if (newIT_Table.table[i].iddatatype == 1) // выбираем тип bool
-				{
-					if (newIT_Table.table[i].value.vbool==atoi(word)) // сравниваем значения bool, делая из строки в логическое
-						return true;
+				default:std::cout << "неопред2 тип" << newIT_Table.table[i].id;
+					break;
 				}
-
 			}
 			if (newIT_Table.table[i].idtype == 2)   // выбираем функции
 			{
 				if (strcmp(word, newIT_Table.table[i].id) == 0) // сравниваем имена функций
 				{
-					throw ERROR_THROW_IN(503, line, letter); 
+					throw ERROR_THROW_IN(503, line, letter);
 				}
 			}
 		}
@@ -564,27 +570,36 @@ namespace LA
 				{
 					return  i;  // возвращаем индекс лексемы
 				}
-				if (entry.idtype == 1 && newIT_Table.table[i].idscope=="Global") // если мы хотим добавить функцию из Global
+				if (entry.idtype == 1 && newIT_Table.table[i].idscope == "Global") // если мы хотим добавить функцию из Global
 				{
 					return i;
 				}
 			}
-			if (newIT_Table.table[i].idtype == 4 && entry.idtype==4) // выбираем литералы
+			if (newIT_Table.table[i].idtype == 4 && entry.idtype == 4) // выбираем литералы
 			{
-				if (entry.iddatatype == 2) // выбираем тип string
+				switch (newIT_Table.table[i].iddatatype)
 				{
-					if (strcmp(entry.value.vstr->str, newIT_Table.table[i].value.vstr->str) == 0) // сравниваем значения string
-						return i;
-				}
-				if (entry.iddatatype == 1) // выбираем тип int
+				case 1: // выбираем тип int
 				{
 					if (entry.value.vint == newIT_Table.table[i].value.vint) // сравниваем значения integer
 						return i;
+					break;
 				}
-				if (entry.iddatatype == 1) // выбираем тип bool
+				case 4: // выбираем тип char
+				case 2: // выбираем тип string
+				{
+					if (strcmp(entry.value.vstr->str, newIT_Table.table[i].value.vstr->str) == 0) // сравниваем значения string
+						return i;
+					break;
+				}
+				case 3: // выбираем тип bool
 				{
 					if (entry.value.vbool == newIT_Table.table[i].value.vbool) // сравниваем значения bool
 						return i;
+					break;
+				}
+				default:std::cout << "неопред3 тип" << newIT_Table.table[i].id;
+					break;
 				}
 			}
 		}
@@ -598,23 +613,33 @@ namespace LA
 			{
 				if (newIT_Table.table[i].idscope == "Global") // выбираем функции из глобалльной области видимости
 				{
-					if (strcmp(name,newIT_Table.table[i].id)==0) // если имя функций одинаково
+					if (strcmp(name, newIT_Table.table[i].id) == 0) // если имя функций одинаково
 					{
 						return true;
 					}
 				}
 			}
-			
+
 		}
 		return false;
 	}
 
 	int Convert8to10(char* s) {
-		
+
 		short n = strlen(s);
 		int res = 0;
 		for (int i = 0; i < n; ++i) {
 			res *= 8;
+			res += (s[i] - '0');
+		}
+		return res;
+	}
+	int Convert2to10(char* s) {
+
+		short n = strlen(s);
+		int res = 0;
+		for (int i = 0; i < n; ++i) {
+			res *= 2;
 			res += (s[i] - '0');
 		}
 		return res;
@@ -635,7 +660,7 @@ namespace LA
 					return;
 				}
 			}
-			int res =Convert8to10(s);
+			int res = Convert8to10(s);
 			_itoa(res, s, 10);
 		}
 	}
