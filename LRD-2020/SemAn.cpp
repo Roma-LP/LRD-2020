@@ -188,41 +188,59 @@ namespace SA
 					if (newLT_Table.table[i].lexema == 'l')
 					{
 						index = newLT_Table.table[i].idxTI;  // переменную записыаем
-						if(newIT_Table.table[index].iddatatype)
+						if(newIT_Table.table[index].iddatatype==1)
 						{
 							switch (operation)
 							{
 							case '+':
 							{
-								sum+=
+								sum+= newIT_Table.table[index].value.vint;
 								break;
 							}
 							case '-':
 							{
+								sum -= newIT_Table.table[index].value.vint;
 								break;
 							}
 							case '*':
 							{
+								sum *= newIT_Table.table[index].value.vint;
 								break;
 							}
 							case '/':
 							{
+								sum /= newIT_Table.table[index].value.vint;
 								break;
 							}
 							default:
 								break;
 							}
-							sum += newIT_Table.table[index].value.vint;
-							break;
 						}
 					}
-					if()
+					if (newLT_Table.table[i].lexema == 'o')
+						operation = newLT_Table.table[i].sp_smbl;
 				}
-				if ( sum > 127 || -128 > sum)
+				if ( sum > 256 || sum<0)
 				{
-					throw ERROR_THROW_IN(704, newLT_Table.table[i].sn, -1);
+					throw ERROR_THROW_IN(704, newLT_Table.table[i].sn, 0);
 				}
 				sum = 0;
+			}
+		}
+	}
+
+	void CheckDelZero(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table)
+	{
+		for (short i = 0; i < newLT_Table.size; i++)
+		{
+			if (newLT_Table.table[i].lexema == 'o' && newLT_Table.table[i].sp_smbl=='/')
+			{
+				if (newLT_Table.table[i + 1].lexema == 'l')
+				{
+					index = newLT_Table.table[i + 1].idxTI;  // переменную записыаем
+					if (newIT_Table.table[index].value.vint==0)
+						throw ERROR_THROW_IN(705, newLT_Table.table[i].sn, 0);
+				}
 			}
 		}
 	}
@@ -238,7 +256,7 @@ namespace SA
 				{
 					if(newIT_Table.table[index].value.vstr->str[2]!='\'')
 					if(newIT_Table.table[index].value.vstr->str[1]!='\'')
-						throw ERROR_THROW_IN(705, newLT_Table.table[i].sn, 0);
+						throw ERROR_THROW_IN(704, newLT_Table.table[i].sn, 0);
 				}
 			}
 		}

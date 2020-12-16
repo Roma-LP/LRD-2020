@@ -15,4 +15,5 @@ namespace SA
 	void CheckArgs(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table); // проверка на тип переменных после =
 	void OutData(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table); // проверка на значения результата после =(0-256)
 	void CheckChar(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table); // проверка на 'c' char
+	void CheckDelZero(LT::LexTable& newLT_Table, IT::IdTable& newIT_Table); // проверка деоения на 0
 }

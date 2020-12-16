@@ -645,7 +645,6 @@ namespace LA
 					res = res + pow(2, step);
 				}
 			}
-			cout << res;
 			itoa(res, s, 10); // что, куда, система счисления
 	}
 }

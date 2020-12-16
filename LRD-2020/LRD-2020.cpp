@@ -41,14 +41,17 @@ int wmain(int argc, const wchar_t * argv[])
 
 		//PN::PolishNotation(newLT_Table);
 		//Log::WritePN(log, newLT_Table);
-
+		for (int i = 175; i < 190; i++)
+		{
+			cout << newLT_Table.table[i].lexema<< "   "<<newLT_Table.table[i].sn << endl;
+		}
 		SA::Typecheck(newLT_Table, newIT_Table);
 		SA::FuncRet(newLT_Table, newIT_Table);
 		SA::CheckArgs(newLT_Table, newIT_Table);
-		SA::OutData(newLT_Table, newIT_Table);
 		SA::CheckChar(newLT_Table, newIT_Table);
+		SA::CheckDelZero(newLT_Table, newIT_Table);
 
-		//GN::Generation(newLT_Table, newIT_Table);
+		GN::Generation(newLT_Table, newIT_Table);
 
 		Log::Close(log);
 	}

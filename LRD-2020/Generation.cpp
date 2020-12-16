@@ -13,7 +13,7 @@ namespace GN
 		fout << "<html>" << endl;
 		fout << "	<head>" << endl;
 		
-		fout << "		<title>LRD-2019</title>" << endl;
+		fout << "		<title>LRD-2020</title>" << endl;
 		fout << "		<script src=\"lib.js\"></script>" << endl << endl;
 		fout << "		<script type=\"text/javascript\">" << endl << endl;
 		fout << "		main()" << endl << endl;
@@ -152,19 +152,24 @@ namespace GN
 			}
 			case 4:
 			{
-				if (newIT_Table.table[index].iddatatype == (IT::IDDATATYPE) 2)
-				{
-					fout << (char*)newIT_Table.table[index].value.vstr->str;
-					return;
-				}
 				if (newIT_Table.table[index].iddatatype == (IT::IDDATATYPE) 1)
 				{
 					fout << newIT_Table.table[index].value.vint;
 					return;
 				}
+				if (newIT_Table.table[index].iddatatype == (IT::IDDATATYPE) 2)
+				{
+					fout << (char*)newIT_Table.table[index].value.vstr->str;
+					return;
+				}
 				if (newIT_Table.table[index].iddatatype == (IT::IDDATATYPE) 3)
 				{
 					fout << newIT_Table.table[index].value.vbool;
+					return;
+				}
+				if (newIT_Table.table[index].iddatatype == (IT::IDDATATYPE) 4)
+				{
+					fout << (char*)newIT_Table.table[index].value.vstr->str;
 					return;
 				}
 			}
