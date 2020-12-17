@@ -37,7 +37,7 @@ var uint x;
 var bool bl;
 var bool bg;
  x = 1*2+9;
- x=3/100;
+ x=~x;
 print x;
 z=063;
 print z;

@@ -1,0 +1,26 @@
+uint function fifi(uint x, uint y)
+{
+ var uint z;
+ z= x*(x+y);
+ if(z)
+ {
+	print "положительно!!!";
+ }
+ else
+{
+	print "отрицательно!!!";
+}
+ return z; 
+};  
+main
+{
+var uint x;
+ var uint y;
+var string sa;
+x=063;
+print x;
+sa="slovo";
+ y = fifi(x,y);
+ print y;
+ return 0;
+};

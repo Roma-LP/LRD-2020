@@ -14,6 +14,7 @@
 
 int wmain(int argc, const wchar_t * argv[])
 {
+
 	setlocale(LC_ALL, "Russian");
 	Log::LOG log = Log::INITLOG;
 
@@ -41,10 +42,7 @@ int wmain(int argc, const wchar_t * argv[])
 
 		//PN::PolishNotation(newLT_Table);
 		//Log::WritePN(log, newLT_Table);
-		for (int i = 175; i < 190; i++)
-		{
-			cout << newLT_Table.table[i].lexema<< "   "<<newLT_Table.table[i].sn << endl;
-		}
+		
 		SA::Typecheck(newLT_Table, newIT_Table);
 		SA::FuncRet(newLT_Table, newIT_Table);
 		SA::CheckArgs(newLT_Table, newIT_Table);

@@ -92,13 +92,13 @@ namespace GN
 								OutValue(i + 1, newLT_Table, newIT_Table);  // +1 так как нам нужно вывести переменную, а не лексему print
 							i++;
 							}
-							fout << ")";
+							fout << "+'</br>')";
 							continue;  // и если это так, то пропускаем
 						}
 						fout << "document.writeln(";
 						OutValue(i+1, newLT_Table, newIT_Table);  // +1 так как нам нужно вывести переменную, а не лексему print
 						i++; //инкремент т.к. нам надо пропустить переменную, которую уже вывели
-						fout << ")";
+						fout << "+'</br>')";
 						break;
 					}
 					case 'o':

@@ -1,10 +1,13 @@
+var uint function cntchstr ( ch n , string p ) ; 
+var uint function strtoint ( string a ) ; 
+var string function strcat ( string x , ch y ) ; 
 uint function fifi ( uint x , uint y ) 
 { 
 var uint z ; 
 z = x * ( x + y ) ; 
 if ( z ) 
 { 
-print "положительно!!!" ; 
+print "положительно???" ; 
 } 
 else 
 { 
@@ -12,15 +15,40 @@ print "отрицательно!!!" ;
 } 
 return z ; 
 } ; 
+uint function fsfs ( string ay , uint bi ) 
+{ 
+var uint c ; 
+c = strtoint ( ay ) + bi ; 
+return c ; 
+} ; 
 main 
 { 
 var uint x ; 
 var uint y ; 
+var uint z ; 
 var string sa ; 
-x = 063 ; 
+var string sb ; 
+var ch symb ; 
+var bool bl ; 
+var bool bg ; 
+x = 1 * 2 + 9 ; 
+x = 3 / 100 ; 
 print x ; 
-sa = "slovo" ; 
-y = fifi ( x , y ) ; 
+z = 063 ; 
+print z ; 
+z = b1101000 ; 
+print z ; 
+y = x & y ; 
 print y ; 
+symb = 'f' ; 
+sa = "edftrffdf fgd sw " ; 
+sb = strcat ( sa , symb ) ; 
+print sb ; 
+sb = "29" ; 
+x = fifi ( 3 , y ) ; 
+y = fsfs ( sb , x ) ; 
+print x ; 
+print y ; 
+print cntchstr ( symb , sa ) ; 
 return 0 ; 
 } ; 
